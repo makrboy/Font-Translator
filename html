@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Font Changer</title>
+  <style>
+    body, html {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      background-color: rgb(25, 25, 25);
+    }
+    
+    .font-changer {
+      font-family: Arial, sans-serif;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      color: rgb(0, 100, 0);
+    }
+    
+    #textInput {
+      width: 80%;
+      height: 80%;
+      font-size: 200%;
+      padding: 1%;
+      box-sizing: border-box;
+      vertical-align: top;
+      background-color: rgb(0, 0, 0);
+      color: rgb(0, 100, 0);
+      letter-spacing: 0.1em;
+      word-spacing: 0.05em;
+    }
+
+    button {
+      color: rgb(0, 100, 0);
+      background-color: rgb(0, 0, 0);
+      font-size: 200%;
+      padding: 1%;
+    }
+    
+    @font-face {
+      font-family: "pigpen";
+      src: url('Pigpen.otf') format('opentype');
+    }
+    
+  </style>
+</head>
+<body>
+  <div class="font-changer">
+    <h1 class="custom-font-example">Font Changer</h1>
+  
+    <textarea id="textInput" placeholder=""></textarea>
+    <button onclick="changeFont()">Change Font</button>
+  </div>
+  
+  <script>
+    var fonts = ["Arial, sans-serif", "pigpen"];
+    var fontIndex = 0;
+    
+    function changeFont() {
+      var textInput = document.getElementById("textInput");
+      var style = textInput.style
+      style.fontFamily = fonts[fontIndex];
+      style.wordSpacing = (fontIndex == 0 ? "0.05em" : "0.75em")
+      
+      fontIndex = (fontIndex + 1) % fonts.length;
+    }
+    changeFont()
+  </script>
+</body>
+</html>
