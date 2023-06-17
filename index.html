@@ -9,7 +9,7 @@
       padding: 0;
       background-color: rgb(25, 25, 25);
     }
-    
+
     .font-changer {
       font-family: Arial, sans-serif;
       height: 100%;
@@ -19,7 +19,7 @@
       flex-direction: column;
       color: rgb(0, 100, 0);
     }
-    
+
     #textInput {
       width: 80%;
       height: 80%;
@@ -33,38 +33,67 @@
       word-spacing: 0.05em;
     }
 
+    #alphabetBox {
+      width: 80%;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      padding: 1%;
+    }
+
+    .alphabet {
+      margin: 5px;
+      color: rgb(0, 100, 0);
+      font-size: 200%;
+    }
+
     button {
       color: rgb(0, 100, 0);
       background-color: rgb(0, 0, 0);
       font-size: 200%;
       padding: 1%;
     }
-    
+
     @font-face {
       font-family: "pigpen";
       src: url('Pigpen.otf') format('opentype');
     }
-    
+
   </style>
 </head>
 <body>
   <div class="font-changer">
     <h1 class="custom-font-example">Font Changer</h1>
-  
+
     <textarea id="textInput" placeholder=""></textarea>
+
+    <div id="alphabetBox">
+      <!-- Alphabet divs will be populated here -->
+    </div>
+
     <button onclick="changeFont()">Change Font</button>
   </div>
-  
+
   <script>
     var fonts = ["Arial, sans-serif", "pigpen"];
     var fontIndex = 0;
-    
+    var alphabet = "A B C D E F G H I J K L M N O P Q R S T U V W X Y Z".split(" ");
+    var alphabetBox = document.getElementById('alphabetBox');
+
+    // Populate the alphabet box
+    alphabet.forEach(function(letter) {
+      var div = document.createElement('div');
+      div.classList.add('alphabet');
+      div.innerHTML = `<span style="font-family: Arial, sans-serif;">${letter}</span> / <span style="font-family: pigpen;">${letter}</span>`;
+      alphabetBox.appendChild(div);
+    });
+
     function changeFont() {
       var textInput = document.getElementById("textInput");
-      var style = textInput.style
+      var style = textInput.style;
       style.fontFamily = fonts[fontIndex];
-      style.wordSpacing = (fontIndex == 0 ? "0.05em" : "0.75em")
-      
+      style.wordSpacing = (fontIndex == 0 ? "0.05em" : "0.75em");
+
       fontIndex = (fontIndex + 1) % fonts.length;
     }
     changeFont()
