@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
   <title>Font Changer</title>
   <style>
@@ -9,8 +10,9 @@
       font-size: 2em;
       padding: 1%;
     }
-    
-    body, html {
+
+    body,
+    html {
       height: 100%;
       margin: 0;
       padding: 0;
@@ -57,7 +59,8 @@
       display: inline-block;
     }
 
-    h1, #currentFont {
+    h1,
+    #currentFont {
       font-size: 2em;
     }
 
@@ -70,17 +73,17 @@
       font-family: "Hogmark";
       src: url('Hogmark.otf') format('opentype');
     }
-
   </style>
 </head>
+
 <body>
   <div class="font-changer">
     <h1 class="custom-font-example">Font Changer</h1>
     <p id="currentFont">Current Font: </p> <!-- Add this line -->
-    
-    
+
+
     <button onclick="changeFont()">Change Font</button>
-    
+
     <textarea id="textInput" placeholder=""></textarea> <!-- Move the textarea after the button -->
 
     <div id="alphabetBox">
@@ -93,7 +96,7 @@
     var alphabet = "A B C D E F G H I J K L M N O P Q R S T U V W X Y Z . ! ? , \" :".split(" ");
     var alphabetBox = document.getElementById('alphabetBox');
 
-    alphabet.forEach(function(letter) {
+    alphabet.forEach(function (letter) {
       var div = document.createElement('div');
       div.classList.add('alphabet');
       div.innerHTML = `<span style="font-family: Arial, sans-serif;">${letter}</span><br/><span style="font-family: pigpen;">${letter}</span><br/><span style="font-family: Hogmark;">${letter}</span>`;
@@ -113,6 +116,40 @@
       fontIndex = (fontIndex + 1) % fonts.length;
     }
     changeFont()
+
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('service-worker.js')
+        .then(function (registration) {
+          console.log('Service Worker registered with scope:', registration.scope);
+        })
+        .catch(function (error) {
+          console.log('Service Worker registration failed:', error);
+        });
+    }
+    self.addEventListener('install', function (event) {
+      event.waitUntil(
+        caches.open('your-cache-name')
+          .then(function (cache) {
+            return cache.addAll([
+              'Hogmark.oft',
+              'Pigpen.oft',
+              'index.html'
+              // Add more files and assets to cache
+            ]);
+          })
+      );
+    });
+
+    self.addEventListener('fetch', function (event) {
+      event.respondWith(
+        caches.match(event.request)
+          .then(function (response) {
+            return response || fetch(event.request);
+          })
+      );
+    });
+
   </script>
 </body>
+
 </html>
