@@ -3,6 +3,13 @@
 <head>
   <title>Font Changer</title>
   <style>
+    button {
+      color: rgb(0, 100, 0);
+      background-color: rgb(0, 0, 0);
+      font-size: 2em;
+      padding: 1%;
+    }
+    
     body, html {
       height: 100%;
       margin: 0;
@@ -20,12 +27,12 @@
       color: rgb(0, 100, 0);
     }
 
+
     #textInput {
       width: 80%;
-      height: 80%;
-      font-size: 200%;
+      height: 50%;
+      font-size: 2em;
       padding: 1%;
-      box-sizing: border-box;
       vertical-align: top;
       background-color: rgb(0, 0, 0);
       color: rgb(0, 100, 0);
@@ -35,8 +42,8 @@
 
     #alphabetBox {
       width: 80%;
+      height: 30%;
       padding: 1%;
-      background-color: rgb(0, 0, 0);
       color: rgb(0, 100, 0);
       display: flex;
       flex-wrap: wrap;
@@ -45,20 +52,23 @@
 
     .alphabet {
       margin: 5px;
-      font-size: 200%;
+      font-size: 2em;
       text-align: center;
+      display: inline-block;
     }
 
-    button {
-      color: rgb(0, 100, 0);
-      background-color: rgb(0, 0, 0);
-      font-size: 200%;
-      padding: 1%;
+    h1, #currentFont {
+      font-size: 2em;
     }
 
     @font-face {
-      font-family: "pigpen";
+      font-family: "Pigpen";
       src: url('Pigpen.otf') format('opentype');
+    }
+
+    @font-face {
+      font-family: "Hogmark";
+      src: url('Hogmark.otf') format('opentype');
     }
 
   </style>
@@ -66,27 +76,27 @@
 <body>
   <div class="font-changer">
     <h1 class="custom-font-example">Font Changer</h1>
-
-    <textarea id="textInput" placeholder=""></textarea>
+    <p id="currentFont">Current Font: </p> <!-- Add this line -->
+    
+    
+    <button onclick="changeFont()">Change Font</button>
+    
+    <textarea id="textInput" placeholder=""></textarea> <!-- Move the textarea after the button -->
 
     <div id="alphabetBox">
-      <!-- Alphabet divs will be populated here -->
     </div>
-
-    <button onclick="changeFont()">Change Font</button>
   </div>
 
   <script>
-    var fonts = ["Arial, sans-serif", "pigpen"];
+    var fonts = ["Arial, sans-serif", "Pigpen", "Hogmark"];
     var fontIndex = 0;
-    var alphabet = "A B C D E F G H I J K L M N O P Q R S T U V W X Y Z".split(" ");
+    var alphabet = "A B C D E F G H I J K L M N O P Q R S T U V W X Y Z . ! ? , \" :".split(" ");
     var alphabetBox = document.getElementById('alphabetBox');
 
-    // Populate the alphabet box
     alphabet.forEach(function(letter) {
       var div = document.createElement('div');
       div.classList.add('alphabet');
-      div.innerHTML = `<span style="font-family: Arial, sans-serif;">${letter}</span><br/><span style="font-family: pigpen;">${letter}</span>`;
+      div.innerHTML = `<span style="font-family: Arial, sans-serif;">${letter}</span><br/><span style="font-family: pigpen;">${letter}</span><br/><span style="font-family: Hogmark;">${letter}</span>`;
       alphabetBox.appendChild(div);
     });
 
@@ -95,6 +105,10 @@
       var style = textInput.style;
       style.fontFamily = fonts[fontIndex];
       style.wordSpacing = (fontIndex == 0 ? "0.05em" : "0.75em");
+
+      // Update the current font display
+      var currentFontDisplay = document.getElementById('currentFont');
+      currentFontDisplay.textContent = "Current Font: " + fonts[fontIndex];
 
       fontIndex = (fontIndex + 1) % fonts.length;
     }
